@@ -4,6 +4,7 @@ import { piecesMap } from "./pieces-map.js";
 export class Piece {
   _x;
   _y;
+  _options;
   element;
 
   set x(value) {
@@ -25,8 +26,9 @@ export class Piece {
   }
 
   constructor(options) {
+    this._options = options;
     this.generateElement();
-    this.setRandomPosition();
+    this.setPosition();
 
     piecesMap.add(this);
   }
@@ -49,5 +51,14 @@ export class Piece {
     const randomY = Math.floor(Math.random() * maxY);
     this.x = Math.floor(randomX / PIECE_SIZE) * PIECE_SIZE;
     this.y = Math.floor(randomY / PIECE_SIZE) * PIECE_SIZE;
+  }
+
+  setPosition() {
+    if (this._options?.x || this._options?.y) {
+      this.x = this._options.x;
+      this.y = this._options.y;
+    } else {
+      this.setRandomPosition();
+    }
   }
 }

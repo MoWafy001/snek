@@ -21,27 +21,25 @@ body{
     position: absolute;
     width: 10px;
     height: 10px;
-    background-color: #000;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 50px;
     cursor: pointer;
-    background: #0f0;
 }
 
-.body{
+.body-node{
     background: #00f;
 }
 
 #head{
-    background: #f00;
+    background: #000;
     left: 0;
     top: 0;
 }
 
 .food{
-    background: #0f0;
+    background: #f00;
     left: 60px;
     top: 60px;
 }

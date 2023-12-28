@@ -2,10 +2,15 @@ import { Piece } from "./piece.js";
 import { HEIGHT, PIECE_SIZE, WIDTH } from "./consts.js";
 import { Food } from "./food.js";
 import { piecesMap } from "./pieces-map.js";
+import { BodyNode } from "./body-node.js";
 
 export class Head extends Piece {
   xSpeed = 0;
   ySpeed = 0;
+  child;
+
+  previousX;
+  previousY;
 
   constructor(options) {
     super(options);
@@ -42,11 +47,19 @@ export class Head extends Piece {
     const nextY = this.y + this.ySpeed * PIECE_SIZE;
 
     if (nextX >= 0 && nextX < WIDTH && nextY >= 0 && nextY < HEIGHT) {
+      this.previousX = this.x;
+      this.previousY = this.y;
       this.x = nextX;
       this.y = nextY;
+      this.checkCollision();
+      this.updateChildPosition();
     }
+  }
 
-    this.checkCollision();
+  updateChildPosition() {
+    if (!this.child) return;
+
+    this.child.updatePosition(this.previousX, this.previousY);
   }
 
   checkCollision() {
@@ -54,7 +67,6 @@ export class Head extends Piece {
     if (!collidedWithElement) return;
 
     if (collidedWithElement instanceof Food) {
-        console.log(collidedWithElement);
       this.eat(collidedWithElement);
     }
 
@@ -62,8 +74,20 @@ export class Head extends Piece {
   }
 
   eat(food) {
-    food.remove()
-    new Food()
-    // this.grow();
+    food.remove();
+    new Food();
+    this.grow();
+  }
+
+  grow() {
+    if (!this.child) {
+      this.child = new BodyNode({
+        parent: this,
+        x: this.x,
+        y: this.y,
+      });
+    } else {
+      this.child.grow();
+    }
   }
 }
