@@ -1,0 +1,47 @@
+body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+
+}
+
+#game-board{
+    border: 1px solid black;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.piece{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    cursor: pointer;
+    background: #0f0;
+}
+
+.body{
+    background: #00f;
+}
+
+#head{
+    background: #f00;
+    left: 0;
+    top: 0;
+}
+
+.food{
+    background: #0f0;
+    left: 60px;
+    top: 60px;
+}
