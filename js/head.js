@@ -11,6 +11,7 @@ export class Head extends Piece {
 
   previousX;
   previousY;
+  dead = false;
 
   constructor(options) {
     super(options);
@@ -23,20 +24,28 @@ export class Head extends Piece {
     document.addEventListener("keydown", (event) => {
       switch (event.key) {
         case "ArrowUp":
-          this.xSpeed = 0;
-          this.ySpeed = -1;
+          if (this.ySpeed !== 1) {
+            this.xSpeed = 0;
+            this.ySpeed = -1;
+          }
           break;
         case "ArrowDown":
-          this.xSpeed = 0;
-          this.ySpeed = 1;
+          if (this.ySpeed !== -1) {
+            this.xSpeed = 0;
+            this.ySpeed = 1;
+          }
           break;
         case "ArrowLeft":
-          this.xSpeed = -1;
-          this.ySpeed = 0;
+          if (this.xSpeed !== 1) {
+            this.xSpeed = -1;
+            this.ySpeed = 0;
+          }
           break;
         case "ArrowRight":
-          this.xSpeed = 1;
-          this.ySpeed = 0;
+          if (this.xSpeed !== -1) {
+            this.xSpeed = 1;
+            this.ySpeed = 0;
+          }
           break;
       }
     });
@@ -53,6 +62,8 @@ export class Head extends Piece {
       this.y = nextY;
       this.checkCollision();
       this.updateChildPosition();
+    } else {
+      this.die();
     }
   }
 
@@ -70,7 +81,9 @@ export class Head extends Piece {
       this.eat(collidedWithElement);
     }
 
-    // if part of me, die // TODO
+    if (collidedWithElement instanceof BodyNode) {
+      this.die();
+    }
   }
 
   eat(food) {
@@ -89,5 +102,9 @@ export class Head extends Piece {
     } else {
       this.child.grow();
     }
+  }
+
+  die() {
+    this.dead = true;
   }
 }

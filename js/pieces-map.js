@@ -27,6 +27,10 @@ class PiecesMap {
       return true;
     });
   }
+
+  clear() {
+    this.pieces = [];
+  }
 }
 
 export const piecesMap = new PiecesMap();
