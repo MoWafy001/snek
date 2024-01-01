@@ -13,6 +13,8 @@ export class Head extends Piece {
   previousY;
   dead = false;
 
+  changingDirection = false;
+
   constructor(options) {
     super(options);
     this.element.id = "head";
@@ -22,29 +24,35 @@ export class Head extends Piece {
 
   setMovementListeners() {
     document.addEventListener("keydown", (event) => {
+      if (this.changingDirection) return;
+
       switch (event.key) {
         case "ArrowUp":
           if (this.ySpeed !== 1) {
             this.xSpeed = 0;
             this.ySpeed = -1;
+            this.changingDirection = true;
           }
           break;
         case "ArrowDown":
           if (this.ySpeed !== -1) {
             this.xSpeed = 0;
             this.ySpeed = 1;
+            this.changingDirection = true;
           }
           break;
         case "ArrowLeft":
           if (this.xSpeed !== 1) {
             this.xSpeed = -1;
             this.ySpeed = 0;
+            this.changingDirection = true;
           }
           break;
         case "ArrowRight":
           if (this.xSpeed !== -1) {
             this.xSpeed = 1;
             this.ySpeed = 0;
+            this.changingDirection = true;
           }
           break;
       }
@@ -62,6 +70,7 @@ export class Head extends Piece {
       this.y = nextY;
       this.checkCollision();
       this.updateChildPosition();
+      this.changingDirection = false;
     } else {
       this.die();
     }
